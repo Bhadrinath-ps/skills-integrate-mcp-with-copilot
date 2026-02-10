@@ -19,8 +19,22 @@ current_dir = Path(__file__).parent
 app.mount("/static", StaticFiles(directory=os.path.join(Path(__file__).parent,
           "static")), name="static")
 
+from fastapi.responses import JSONResponse
+
 # In-memory activity database
 activities = {
+
+    # MCP integration status endpoint
+    @app.get("/mcp-status")
+    def mcp_status():
+        """Return MCP server configuration/status for integration demonstration."""
+        # This would normally read from a config or environment
+        mcp_info = {
+            "mcp_enabled": True,
+            "server": "github",
+            "url": "https://api.githubcopilot.com/mcp/"
+        }
+        return JSONResponse(content=mcp_info)
     "Chess Club": {
         "description": "Learn strategies and compete in chess tournaments",
         "schedule": "Fridays, 3:30 PM - 5:00 PM",
